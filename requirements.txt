@@ -1,0 +1,23 @@
+# --- Hito 1: clasificador DAT ---
+torch>=2.2
+torchvision>=0.17
+timm>=1.0
+einops>=0.6
+albumentations>=1.4
+opencv-python-headless
+scikit-learn>=1.4
+pandas
+numpy
+matplotlib
+tqdm
+pyyaml
+tensorboard
+gdown
+
+# --- Fases posteriores (descomentar cuando se usen) ---
+# monai
+# captum
+# pydensecrf
+# onnx
+# onnxruntime
+# streamlit

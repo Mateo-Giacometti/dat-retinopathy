@@ -1,0 +1,35 @@
+# Run serio: DAT-Tiny @512 sobre EyePACS completo (~31.6k train / 3.5k val)
+run_name: dat_tiny_512
+seed: 42
+
+data:
+  train_csv: data/splits/eyepacs_train.csv
+  val_csv: data/splits/eyepacs_val.csv
+  img_dir: data/processed/eyepacs_512
+  img_ext: .jpg
+  img_size: 512
+  subset_train: 0          # 0 = dataset completo
+  subset_val: 0
+  num_workers: 8
+
+model:
+  name: dat_tiny
+  num_classes: 5
+  window_size: 8           # 512/4 = 128, divisible por 8
+  pretrained: checkpoints/pretrained/dat_tiny_in1k_224.pth
+
+loss:
+  name: focal
+  gamma: 2.0
+  alpha: null              # probar 'inv_freq' si las clases 3-4 quedan mal
+
+train:
+  epochs: 20
+  batch_size: 4
+  grad_accum: 8            # batch efectivo 32 (VRAM 8 GB: @512 batch 4 max)
+  lr: 3.0e-4
+  head_lr_mult: 10
+  weight_decay: 1.0e-4
+  warmup_epochs: 1
+  amp: true                # bf16, sin GradScaler
+  early_stop_patience: 5

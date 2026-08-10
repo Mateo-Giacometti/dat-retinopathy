@@ -1,0 +1,35 @@
+# Smoke test: DAT-Tiny @384 sobre un subset — valida pipeline end-to-end en minutos
+run_name: dat_tiny_smoke
+seed: 42
+
+data:
+  train_csv: data/splits/eyepacs_train.csv
+  val_csv: data/splits/eyepacs_val.csv
+  img_dir: data/processed/eyepacs_512
+  img_ext: .jpg
+  img_size: 384
+  subset_train: 2000
+  subset_val: 500
+  num_workers: 8
+
+model:
+  name: dat_tiny
+  num_classes: 5
+  window_size: 12          # 384/4 = 96, divisible por 12
+  pretrained: checkpoints/pretrained/dat_tiny_in1k_224.pth
+
+loss:
+  name: focal
+  gamma: 2.0
+  alpha: null
+
+train:
+  epochs: 2
+  batch_size: 8
+  grad_accum: 1
+  lr: 3.0e-4
+  head_lr_mult: 10
+  weight_decay: 1.0e-4
+  warmup_epochs: 0
+  amp: true
+  early_stop_patience: 5
